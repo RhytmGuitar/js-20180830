@@ -5,24 +5,59 @@ export default class PhoneFilters extends Component {
     super({ element });
 
     this._render();
+    this.filterInput = document.querySelector('input[data-element="search"]');
+    this._initEvents();
+  }
+
+  _initEvents() {
+    let searchHandler = this._funcHandler(this._search, 200);
+
+    this._on('input', 'search', searchHandler);
+    this._on('keyup', 'search', searchHandler);
+
+    this._on('change', 'sort', this._sortHandler.bind(this));
+  }
+
+  _funcHandler(func, delay) {
+    let timer = null;
+
+    return (ev) => {
+      if(timer) {
+        clearTimeout(timer);
+      }
+
+      timer = setTimeout(func.bind(this), delay, ev);
+    }
+  }
+
+  _sortHandler(ev) {
+    this.emit('sort', ev.target.value);
+  }
+
+  _search(ev) {
+    this.emit('search', ev.target.value);
   }
 
   _render() {
     this._element.innerHTML = `
-      <p>
+      <h3>Tools</h3>
+      <div class="search">
         Search:
         <input
           type="text"
+          data-element="search"
         >
-      </p>
+      </div>
 
-      <p>
+      <div class="sort">
         Sort by:
-        <select>
+        <select
+          data-element="sort"
+        >
           <option value="name">Alphabetical</option>
-          <option value="age">Newest</option>
+          <option value="age" selected>Newest</option>
         </select>
-      </p>
+      </div>
     `;
   }
 }

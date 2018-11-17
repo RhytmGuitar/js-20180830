@@ -68,6 +68,17 @@ export default class PhonesPage {
     this._filter = new PhonesFilter({
       element: this._element.querySelector('[data-component="phones-filter"]'),
     });
+
+    this._filter.on('search', (ev) => {
+        this._catalog.emit('search', ev.detail);
+      }
+    );
+
+    this._filter.on('sort', (ev) => {
+        this._catalog.emit('sort', ev.detail);
+        this._catalog.update();
+      }
+    );
   }
 
   _render() {
@@ -76,7 +87,7 @@ export default class PhonesPage {
         <div class="row">
       
           <!--Sidebar-->
-          <div class="col-md-2">
+          <div class="toolbar fixed-on-top">
             <section>
               <div data-component="phones-filter"></div>
             </section>
@@ -87,7 +98,7 @@ export default class PhonesPage {
           </div>
       
           <!--Main content-->
-          <div class="col-md-10">
+          <div class="content">
             <div data-component="phone-catalog" class="js-hidden"></div>
             <div data-component="phone-viewer" class="js-hidden"></div>
           </div>

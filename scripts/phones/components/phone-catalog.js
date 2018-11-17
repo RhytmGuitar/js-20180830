@@ -15,6 +15,16 @@ export default class PhoneCatalog extends Component {
 
       this.emit('add', phoneElement.dataset.phoneId);
     });
+
+    this.on('search', (event) => {
+      this._search(event);
+    });
+
+    this.on('sort', (event) => {
+      this._sort(event);
+    });
+
+    this.items = null;
   }
 
   show(phones) {
@@ -22,6 +32,47 @@ export default class PhoneCatalog extends Component {
     this._render();
 
     super.show();
+
+    this.items = document.querySelectorAll('[data-element="phone"]');
+  }
+
+  update() {
+    this._render();
+  }
+
+  _search(event) {
+    if(!this.items) return;
+
+    if(!event.detail) {
+      this.items.forEach((el, key) => {
+        el.style.display = '';
+      });
+
+      return;
+    }
+
+    this.items.forEach((el, key) => {
+      if(el.textContent.toLocaleLowerCase().includes(event.detail.toLocaleLowerCase())) {
+        el.style.display = '';
+      }
+      else {
+        el.style.display = 'none';
+      }
+    });
+  }
+
+  _sort(ev) {
+    if(!this._phones) return;
+
+    if(ev.detail === 'name'){
+      this._phones = this._phones.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1);
+      return;
+    }
+    
+    if(ev.detail === 'age'){
+      this._phones = this._phones.sort((a, b) => (a.age > b.age) ? 1 : -1);
+      return;
+    }
   }
 
   _render() {

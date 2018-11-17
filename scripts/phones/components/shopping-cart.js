@@ -4,11 +4,7 @@ export default class ShoppingCart extends Component {
   constructor({ element }) {
     super({ element });
 
-    this._items = {
-      test: 2,
-      foo: 1,
-      bar: 3
-    };
+    this._items = {};
 
     this._render();
 
@@ -42,7 +38,7 @@ export default class ShoppingCart extends Component {
   _render() {
     this._element.innerHTML = `
       <h3>Shopping Cart</h3>
-      <ul>
+      <ul class="cart">
         ${ Object.keys(this._items).map(item => `
         
           <li>

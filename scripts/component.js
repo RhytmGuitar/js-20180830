@@ -38,4 +38,10 @@ export default class Component {
       callback(event);
     });
   }
+
+  on(eventName, callback) {
+    this._element.addEventListener(eventName, (event) => {
+      callback(event);
+    });
+  }
 }
