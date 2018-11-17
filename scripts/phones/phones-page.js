@@ -77,6 +77,7 @@ export default class PhonesPage {
     this._filter.on('sort', (ev) => {
         this._catalog.emit('sort', ev.detail);
         this._catalog.update();
+        this._catalog.emit('search', this._filter.getInputText());
       }
     );
   }

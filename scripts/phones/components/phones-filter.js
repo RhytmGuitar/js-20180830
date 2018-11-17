@@ -38,6 +38,10 @@ export default class PhoneFilters extends Component {
     this.emit('search', ev.target.value);
   }
 
+  getInputText() {
+    return this.filterInput.value;
+  }
+
   _render() {
     this._element.innerHTML = `
       <h3>Tools</h3>

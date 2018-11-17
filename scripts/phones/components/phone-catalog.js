@@ -38,6 +38,8 @@ export default class PhoneCatalog extends Component {
 
   update() {
     this._render();
+
+    this.items = document.querySelectorAll('[data-element="phone"]');
   }
 
   _search(event) {
